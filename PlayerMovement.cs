@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
+    public Collision collision;
 
     public float speed = 20f;
     public float gravity = -9.18f;
@@ -25,7 +26,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (!collision.willBounceVert) 
+        {
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -68,7 +73,8 @@ public class PlayerMovement : MonoBehaviour
         
 
         velocity.y += gravity * Time.deltaTime;
-
+      
         controller.Move(velocity * Time.deltaTime); // gravity
+        
     }
 }
